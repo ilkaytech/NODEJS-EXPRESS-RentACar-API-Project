@@ -4,7 +4,7 @@
 ----------------------------------------*/
 // User Controller:
 
-const user = require("../models/user");
+const User = require("../models/user");
 
 module.exports = {
   list: async (req, res) => {
@@ -19,8 +19,9 @@ module.exports = {
                     <li>URL/?<b>page=2&limit=1</b></li>
                 </ul>
             `
-    */
-    const data = await req.getModelList(User);
+        */
+
+    const data = await res.getModelList(User);
 
     res.status(200).send({
       error: false,
@@ -46,20 +47,21 @@ module.exports = {
                     "isAdmin": false,
                 }
             }
-    */
+        */
+
     const data = await User.create(req.body);
 
     res.status(201).send({
-      eroor: false,
+      error: false,
       data,
     });
   },
 
   read: async (req, res) => {
     /*
-        #swagger.tags = ["Users"]
-        #swagger.summary = "Get Single User"
-    */
+            #swagger.tags = ["Users"]
+            #swagger.summary = "Get Single User"
+        */
 
     const data = await User.findOne({ _id: req.params.id });
 
@@ -71,20 +73,20 @@ module.exports = {
 
   update: async (req, res) => {
     /*
-        #swagger.tags = ["Users"]
-        #swagger.summary = "Update User"
-        #swagger.parameters['body'] = {
-            in: 'body',
-            required: true,
-            schema: {
-                "username": "test",
-                "password": "1234",
-                "email": "test@site.com",
-                "isActive": true,
-                "isAdmin": false,
+            #swagger.tags = ["Users"]
+            #swagger.summary = "Update User"
+            #swagger.parameters['body'] = {
+                in: 'body',
+                required: true,
+                schema: {
+                    "username": "test",
+                    "password": "1234",
+                    "email": "test@site.com",
+                    "isActive": true,
+                    "isAdmin": false,
+                }
             }
-        }
-    */
+        */
 
     const data = await User.updateOne({ _id: req.params.id }, req.body, {
       runValidators: true,
@@ -99,9 +101,9 @@ module.exports = {
 
   delete: async (req, res) => {
     /*
-        #swagger.tags = ["Users"]
-        #swagger.summary = "Delete User"
-    */
+            #swagger.tags = ["Users"]
+            #swagger.summary = "Delete User"
+        */
 
     const data = await User.deleteOne({ _id: req.params.id });
 
