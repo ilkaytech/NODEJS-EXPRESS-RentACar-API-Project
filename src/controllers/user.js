@@ -47,7 +47,7 @@ module.exports = {
                     "isAdmin": false,
                 }
             }
-        */
+   */
 
     const data = await User.create(req.body);
 
