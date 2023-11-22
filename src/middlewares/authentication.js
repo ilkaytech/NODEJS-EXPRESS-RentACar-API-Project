@@ -20,6 +20,5 @@ module.exports = async (req, res, next) => {
     const tokenData = await Token.findOne({ token: tokenKey[1] });
     if (tokenData) req.user = await User.findOne({ _id: tokenData.userId });
   }
-
   next();
 };

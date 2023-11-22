@@ -2,13 +2,14 @@
 /* -------------------------------------
     NODEJS EXPRESS | Rent A Car API
 ----------------------------------------*/
-
-const router = required("express").Router();
-/* ---------------------------------------------------- */
+const router = require("express").Router();
+/* ------------------------------------------------------- */
 // routes/:
 
 // URL: /
 
+// auth:
+router.use("/auth", require("./auth"));
 // user:
 router.use("/users", require("./user"));
 // token:
@@ -19,5 +20,6 @@ router.use("/cars", require("./car"));
 router.use("/reservations", require("./reservation"));
 // document:
 router.use("/documents", require("./document"));
-/* ---------------------------------------------------- */
+
+/* ------------------------------------------------------- */
 module.exports = router;
