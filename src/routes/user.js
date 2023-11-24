@@ -10,6 +10,7 @@ const permissions = require("../middlewares/permissions");
 const user = require("../controllers/user");
 
 // URL: /users
+router.get("/verify", user.verify);
 
 router.route("/").get(permissions.isAdmin, user.list).post(user.create);
 

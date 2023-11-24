@@ -7,7 +7,7 @@
 const User = require("../models/user");
 const Token = require("../models/token");
 const passwordEncrypt = require("../helpers/passwordEncrypt");
-const { token } = require("morgan");
+const sendMail = require("../helpers/sendMail");
 
 module.exports = {
   list: async (req, res) => {
@@ -61,6 +61,23 @@ module.exports = {
     let tokenKey = passwordEncrypt(data._id + Date.now());
     let tokenData = await Token.create({ userId: data._id, token: tokenKey });
     /* TOKEN */
+
+    /* SENDMAIL to NewUSer */
+    sendMail(
+      // user email:
+      data.email,
+      // Subject:
+      "Welcome",
+      // Message:
+      `
+          <p>Welcome to our system</p>
+          Bla bla bla...
+          Verify Email: http://127.0.0.1:8000/users/verify/?id=${
+            data._id
+          }&verifyCode=${passwordEncrypt(data.email)}
+      `
+    );
+    /* SENDMAIL to NewUSer */
 
     res.status(201).send({
       error: false,
@@ -142,5 +159,23 @@ module.exports = {
       error: !data.deletedCount,
       data,
     });
+  },
+  verify: async (req, res) => {
+    const { id: _id, verifyCode } = req.query;
+
+    const user = await User.findOne({ _id });
+
+    if (user && verifyCode == passwordEncrypt(user.email)) {
+      await User.updateOne({ _id }, { emailVerified: true });
+      sendMail(user.email, "Email Verified", "Email Verified");
+
+      res.status(200).send({
+        error: false,
+        message: "Email Verified",
+      });
+    } else {
+      res.errorStatusCode = 402;
+      throw new Error("User Not Found.");
+    }
   },
 };
