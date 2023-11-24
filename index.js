@@ -39,6 +39,48 @@ app.use(require("./src/middlewares/logger"));
 app.use(require("./src/middlewares/findSearchSortPage"));
 
 /* ------------------------------------------------------- */
+// Sending Mail (nodemailer):
+
+const nodemailer = require("nodemailer");
+
+// Create Test (Fake) Acconunt:
+// nodemailer.createTestAccount().then((email) => console.log(email));
+/*
+{
+  user: 't3vwix652ebcp7v5@ethereal.email',
+  pass: '9edn8Emv9sxc5UNg6h',
+  smtp: { host: 'smtp.ethereal.email', port: 587, secure: false },
+  imap: { host: 'imap.ethereal.email', port: 993, secure: true },
+  pop3: { host: 'pop3.ethereal.email', port: 995, secure: true },
+  web: 'https://ethereal.email'
+}
+*/
+
+// Connection to mailServer:
+const transporter = nodemailer.createTransport({
+  host: "smtp.ethereal.email",
+  port: 587,
+  secure: false, // false | 'tls' | 'ssl'
+  auth: {
+    user: "ac6evxdu3t45mgmt@ethereal.email",
+    pass: "EhuWArCFt3uevRf887",
+  },
+});
+// SendMail:
+transporter.sendMail(
+  {
+    from: "ac6evxdu3t45mgmt@ethereal.email",
+    to: "info@ilkaytech.com", // 'abc@mail.com, def@mail.com'
+    subject: "Hello",
+    text: "Hello There...",
+    html: "<b>Hello There</b>",
+  },
+  (error, successInfo) => {
+    error ? console.log(error) : console.log(successInfo);
+  }
+);
+
+/* ------------------------------------------------------- */
 // Routes:
 
 // HomePath:
