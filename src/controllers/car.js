@@ -84,6 +84,10 @@ module.exports = {
             }
         */
 
+    console.log("body:", req.body);
+    console.log("file:", req.file); // upload.single()
+    // console.log('files:', req.files) // upload.array() or upload.any()
+
     if (req?.user) {
       // Set userIds from login info:
       req.body.createdId = req.user._id;

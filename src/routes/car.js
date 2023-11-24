@@ -9,9 +9,25 @@ const router = require("express").Router();
 const permissions = require("../middlewares/permissions");
 const car = require("../controllers/car");
 
+/* ------------------------------------------------------- */
+// UPLOAD FILES (multer middleware):
+
+const multer = require("multer");
+const upload = multer({
+  // Middleware Function
+  storage: multer.diskStorage({
+    destination: "./upload",
+  }),
+});
+
+/* ------------------------------------------------------- */
+
 // URL: /cars
 
-router.route("/").get(car.list).post(permissions.isAdmin, car.create);
+router
+  .route("/")
+  .get(car.list)
+  .post(permissions.isAdmin, upload.single("image"), car.create); // req.file
 
 router
   .route("/:id")
